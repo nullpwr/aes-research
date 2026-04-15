@@ -1,0 +1,75 @@
+---------Initial values----------
+Source::
+32 43 f6 a8 88 5a 30 8d 31 31 98 a2 e0 37 07 34 
+Before Round 0 keys (must be equal):: 
+2b 7e 15 16 28 ae d2 a6 ab f7 15 88 09 cf 4f 3c 
+2b 7e 15 16 28 ae d2 a6 ab f7 15 88 09 cf 4f 3c 
+Round 0:: RKEY XOR SOURCE
+19 3d e3 be a0 f4 e2 2b 9a c6 8d 2a e9 f8 48 08 
+Round 1:: SubBytes
+d4 27 11 ae e0 bf 98 f1 b8 b4 5d e5 1e 41 52 30 
+Round 2:: Shifrows
+d4 bf 5d 30 e0 b4 52 ae b8 41 11 f1 1e 27 98 e5 
+Round 3:: MixColumns
+04 66 81 e5 e0 cb 19 9a 48 f8 d3 7a 28 06 26 4c 
+Round 4:: AES key expand
+a0 fa fe 17 88 54 2c b1 23 a3 39 39 2a 6c 76 05 
+Round 5:: RKEY XOR ENCODED
+a4 9c 7f f2 68 9f 35 2b 6b 5b ea 43 02 6a 50 49 
+Round 6:: RKEY XOR ENCODED
+aa 8f 5f 03 61 dd e3 ef 82 d2 4a d2 68 32 46 9a 
+Round 7:: RKEY XOR ENCODED
+48 6c 4e ee 67 1d 9d 0d 4d e3 b1 38 d6 5f 58 e7 
+Round 8:: RKEY XOR ENCODED
+e0 92 7f e8 c8 63 63 c0 d9 b1 35 50 85 b8 be 01 
+Round 9:: RKEY XOR ENCODED
+f1 00 6f 55 c1 92 4c ef 7c c8 8b 32 5d b5 d5 0c 
+Round 10:: RKEY XOR ENCODED
+26 0e 2e 17 3d 41 b7 7d e8 64 72 a9 fd d2 8b 25 
+Round 11:: RKEY XOR ENCODED
+5a 41 42 b1 19 49 dc 1f a3 e0 19 65 7a 8c 04 0c 
+Round 12:: RKEY XOR ENCODED
+ea 83 5c f0 04 45 33 2d 65 5d 98 ad 85 96 b0 c5 
+Round 13:: RKEY XOR ENCODED
+eb 40 f2 1e 59 2e 38 84 8b a1 13 e7 1b c3 42 d2 
+Round 14:: RKEY XOR ENCODED
+WITHOUT MIX_COLUMNS (by design)
+39 25 84 1d 02 dc 09 fb dc 11 85 97 19 6a 0b 32 
+STATE ENCODED and STATE RKEY
+39 25 84 1d 02 dc 09 fb dc 11 85 97 19 6a 0b 32 
+d0 14 f9 a8 c9 ee 25 89 e1 3f 0c c8 b6 63 0c a6 
+RKEY AFTER
+39 25 84 1d 02 dc 09 fb dc 11 85 97 19 6a 0b 32 
+--------------
+EXTENDED ROUNDS::::::Round 15:: RKEY XOR ENCODED
+56 8a 63 a8 a9 63 fa 51 c8 af 00 77 eb 88 4a c5 
+EXTENDED ROUNDS::::::Round 16:: RKEY XOR ENCODED
+f6 e6 52 ae 2b e9 c1 c5 36 14 03 9b 83 96 43 2b 
+EXTENDED ROUNDS::::::Round 17:: RKEY XOR ENCODED
+a7 c5 5e 39 90 78 75 c3 05 9c b3 0e 34 72 f3 9e 
+EXTENDED ROUNDS::::::Round 18:: RKEY XOR ENCODED
+ac 08 73 89 89 e5 bb 05 4d 0e 17 6d c8 7e da a5 
+EXTENDED ROUNDS::::::Round 19:: RKEY XOR ENCODED
+7f b4 e2 52 ac 12 22 d6 f5 7a 24 8d b0 32 7c 63 
+EXTENDED ROUNDS::::::Round 20:: RKEY XOR ENCODED
+d7 6e a2 f4 56 3c da 64 14 52 d2 62 a2 01 a2 6b 
+EXTENDED ROUNDS::::::Round 21:: RKEY XOR ENCODED
+b1 25 82 af b7 2f 39 8c 91 d7 2c d1 85 80 e7 30 
+Round 22:: RKEY XOR ENCODED
+7e 49 7f 57 54 3d bc 31 ff 26 20 28 5f 18 28 8b 
+EXTENDED ROUNDS::::::Round 23:: RKEY XOR ENCODED
+07 9e 3d 5f c9 3d a1 e6 4f f9 96 6f cb 01 98 76 
+EXTENDED ROUNDS::::::Round 24:: RKEY XOR ENCODED
+a9 e9 2d 28 85 ef cd 6e b9 81 b0 3c 6c ce e6 ae 
+EXTENDED ROUNDS::::::Round 25:: RKEY XOR ENCODED
+b8 cc 06 3d fa 40 67 b8 8b df e4 8b e7 0a 54 64 
+EXTENDED ROUNDS::::::Round 26:: RKEY XOR ENCODED
+71 a6 b7 29 1d 1f f8 0c cf 14 7a 1b 7a c0 9e 65 
+EXTENDED ROUNDS::::::Round 27:: RKEY XOR ENCODED
+1c d0 e6 74 9c 71 23 d6 e6 43 b5 7c 6a 2d 54 2e 
+EXTENDED ROUNDS::::::Round 28:: RKEY XOR ENCODED
+06 61 01 01 70 6f 6a 57 2c 95 c6 0e c5 84 5a 2d 
+EXTENDED ROUNDS::::::Round 29:: RKEY XOR ENCODED
+41 ee 57 29 45 02 4b 9b 5f 7d 7e 24 c8 bf ba 2e 
+Round 30:: RKEY XOR ENCODED
+4d 20 b1 82 fb 0a 65 12 21 90 8f 81 1a c1 76 dc 
