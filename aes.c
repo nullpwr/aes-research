@@ -21,7 +21,7 @@ struct Round
 // Full Round
 void nextRound(Round *r)
 {
-    //TODO
+    // TODO
 }
 
 void state_sub_bytes(Round *r)
@@ -96,8 +96,9 @@ void state_next_round(Round *r)
 {
     state_sub_bytes(r);
     state_shift_rows(r);
-    if (r->step < 10) {
-    state_mix_colums(r);
+    if (r->step < 10)
+    {
+        state_mix_colums(r);
     }
 }
 
@@ -105,7 +106,6 @@ void rkey_next_round(Round *r)
 {
     // RoundKey (temp) RotWord
     r->tempv.as32[0] = rorv32(r->rkey.as32[3], 8);
-
 
     // RoundKey SubWord (SBOX) (TODO FB?? 0x63 now)
     // see also `state_sub_bytes`
@@ -130,7 +130,8 @@ void rkey_next_round(Round *r)
     return;
 }
 
-void rcon_next_round(Round *r) {
+void rcon_next_round(Round *r)
+{
     if (r->rcon.as8[0] == 0)
     {
         r->rcon.as8[0] = 0x1;
@@ -231,7 +232,7 @@ uint32_t rorv32(uint32_t x, uint8_t shift)
 }
 
 // Arm64
-//FIXME:: Not working as expected
+// FIXME:: Not working as expected
 uint8_t rorv8(uint8_t x, uint8_t shift)
 {
     int res;
@@ -243,7 +244,8 @@ uint8_t rorv8(uint8_t x, uint8_t shift)
 
 void printRound(uint8_t arr[], size_t size, int emptyline)
 {
-    if (emptyline) printf("\n\n");
+    if (emptyline)
+        printf("\n\n");
     for (int i = 0; i < size; i++)
     {
         if (size > 255)
@@ -275,12 +277,11 @@ int main(void)
     round.load(&round);
     aes_sbox_init(&round);
 
-    //TEST START
+    // TEST START
     printf("\n-----------------PLAIN TEXT-----------------\n");
     printRound(round.state.as8, 16, 0);
     printf("\n-----------------AES----KEY-----------------\n");
     printRound(round.rkey.as8, 16, 0);
-    
 
     round_xor(&round);
     do
@@ -292,7 +293,7 @@ int main(void)
     } while (round.step < 10); // Pseudo break. See nextRound()
     printf("\n------------------ENCODED-------------------\n");
     printRound(round.state.as8, 16, 0);
-    //TEST END
+    // TEST END
     return 0;
 }
 
