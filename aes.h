@@ -26,12 +26,12 @@ https://csrc.nist.gov/files/pubs/fips/197/final/docs/fips-197.pdf
 //Round controller
 typedef struct Round Round;
 void round_init(Round*);
-void round_free(Round*);
 
 //Round methods
 void nextRound(Round*);
 void saveRound(Round*); //not used
 void loadRound(Round*);
+void pathRound(Round*);
 
 //Helpers
 void aes_sbox_init(Round*);
@@ -46,24 +46,7 @@ void state_sub_bytes(Round*);
 void state_shift_rows(Round*);
 void state_mix_columns(Round*);
 void state_mix_column(uint8_t*);
-
-
-//Logic path
-//Not used yet
-typedef enum {
-    ERROR = 0,
-    RCON = 1,
-    RKEY = 2,
-    STATE = 4,
-    FULL = RCON|RKEY|STATE,
-    PRINT = 8,
-    SAVE = 16,
-    LOAD = 32,
-    PRINT_RCON = PRINT|RCON,
-    PRINT_RCON_RKEY = PRINT_RCON|RKEY,
-    PRINT_STATE = PRINT|STATE,
-    PRINT_FULL = PRINT_RCON_RKEY|PRINT_STATE,
-} Status;
+void printRound(uint8_t arr[], size_t size, int emptyline);
 
 //Holds current round state
 typedef
