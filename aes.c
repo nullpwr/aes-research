@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
-#include <stdlib.h>
 #include "aes.h"
 
 struct Round
@@ -14,7 +13,6 @@ struct Round
     Rkey rkey;
     Box box;
     rnd next;
-    rnd save;
     rnd load;
 };
 
@@ -183,8 +181,7 @@ void aes_sbox_init(Round *r)
             q ^= q << 2;
             q ^= q << 4;
             q ^= q & 0x80 ? 0x09 : 0x00;
-            // uint8_t t = q ^ rorv8(q, 1) ^ rorv8(q, 2) ^ rorv8(q, 3) ^ rorv8(q, 4);
-            uint8_t t = q ^ ROL8(q, 1) ^ ROL8(q, 2) ^ ROL8(q, 3) ^ ROL8(q, 4);
+            uint8_t t = rorv8(q);
             r->tempv.as8[1] = t ^ r->tempv.as8[0];
             r->box.sbox[r->tempv.as8[0]][p] = r->tempv.as8[1];
             r->box.ibox[r->tempv.as8[0]][r->tempv.as8[1]] = p;
@@ -231,14 +228,31 @@ uint32_t rorv32(uint32_t x, uint8_t shift)
     return res;
 }
 
-// Arm64
-// FIXME:: Not working as expected
-uint8_t rorv8(uint8_t x, uint8_t shift)
+// Arm64 is equal to
+//uint8_t t = q ^ ROL8(q, 1) ^ ROL8(q, 2) ^ ROL8(q, 3) ^ ROL8(q, 4);
+uint8_t rorv8(uint8_t x)
 {
-    int res;
-    asm("rorv %w[result], %w[input_x], %w[input_shift]"
-        : [result] "=r"(res)
-        : [input_x] "r"(x), [input_shift] "r"(shift));
+    uint8_t res = 0;
+    uint8_t temp = 0;
+    uint8_t t2 = 0;
+    uint8_t acc = 0;
+    asm("lsl %w[temp], %w[x], #1\n"
+        "orr %w[acc], %w[temp], %w[x], lsr#7\n" //acc
+        "lsl %w[temp], %w[x], #2\n"
+        "orr %w[t2], %w[temp], %w[x], lsr#6\n" //t2
+        "eor %w[temp], %w[acc], %w[t2]\n" //temp free t2 acc
+        "lsl %w[t2], %w[x], #3\n"
+        "orr %w[acc], %w[t2], %w[x], lsr#5\n" //temp acc free t2
+        "eor %w[t2], %w[acc], %w[temp]\n" //t2 free acc temp
+        "lsl %w[acc], %w[x], #4\n"
+        "orr %w[temp], %w[acc], %w[x], lsr#4\n"
+        "eor %w[acc], %w[temp], %w[t2]\n"
+        "eor %w[res], %w[acc], %w[x]\n"
+        : [res] "=r"(res)
+        : [x] "r"(x),
+        [temp] "r"(temp),
+        [acc] "r"(acc),
+        [t2] "r"(t2));
     return res;
 }
 

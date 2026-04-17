@@ -31,11 +31,10 @@ void round_init(Round *);
 void nextRound(Round *);
 void saveRound(Round *); // not used
 void loadRound(Round *);
-void pathRound(Round *);
 
 // Helpers
 void aes_sbox_init(Round *);
-uint8_t rorv8(uint8_t, uint8_t); // not used (wrong result)
+uint8_t rorv8(uint8_t);
 uint32_t rorv32(uint32_t, uint8_t);
 void round_reset_tempv(Round *);
 void round_xor(Round *);
