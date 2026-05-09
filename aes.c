@@ -37,7 +37,7 @@ void sub_bytes(Round *r, uint8_t fb, int is_rkey, int is_sbox)
 
     for (int i = 0; i < count; i++)
     {
-        arr[i] = *(((is_sbox) ? r->box.sbox[fb] : r->box.ibox[fb])+arr[i]);
+        arr[i] = *(((is_sbox) ? r->box.sbox[fb] : r->box.ibox[fb]) + arr[i]);
     }
 }
 
@@ -100,7 +100,7 @@ void state_mix_columns(Round *r)
 
 void state_next_round(Round *r)
 {
-    //state_sub_bytes(r);
+    // state_sub_bytes(r);
     sub_bytes(r, AES_SBOX_FIRST_BYTE, 0, 1);
     state_shift_rows(r);
     if (r->step < 10)
@@ -121,7 +121,7 @@ void rkey_next_round(Round *r, uint8_t fb, uint8_t set_rcon_const, int is_sbox, 
     // rcon_next_round(r);
     r->rcon = (set_rcon_const) ? set_rcon_const : get_next_rcon(r->rcon);
 
-    //TEST TEST
+    // TEST TEST
     if (is_addendum)
         r->rcon = (is_sbox) ? r->box.sbox[r->rcon][r->rcon] : r->box.ibox[r->rcon][r->rcon];
 
@@ -131,7 +131,7 @@ void rkey_next_round(Round *r, uint8_t fb, uint8_t set_rcon_const, int is_sbox, 
     r->rkey.as32[0] ^= r->rkey.as32[3];
     for (int i = 1; i < 3; i++)
     {
-    r->rkey.as32[i] ^= r->rkey.as32[i-1];
+        r->rkey.as32[i] ^= r->rkey.as32[i - 1];
     }
     r->rkey.as32[3] = orig ^ r->rkey.as32[2];
 }
@@ -139,12 +139,13 @@ void rkey_next_round(Round *r, uint8_t fb, uint8_t set_rcon_const, int is_sbox, 
 uint8_t get_next_rcon(uint8_t rcon)
 {
     uint8_t temp;
-    if (rcon == 0) return 1;
-
+    if (rcon == 0)
+        return 1;
 
     temp = rcon << 1;
 
-    if (rcon&0x80) temp ^= 0x1B;
+    if (rcon & 0x80)
+        temp ^= 0x1B;
 
     return temp;
 }
@@ -153,7 +154,7 @@ void round_init(Round *r)
 {
     r->step = 0;
     r->rcon = 0;
-    0[r->state.as64] = 0;
+    0 [r->state.as64] = 0;
     r->state.as64[1] = 0;
     r->rkey.as64[0] = 0;
     r->rkey.as64[1] = 0;
@@ -198,10 +199,10 @@ void aes_sbox_init(Round *r)
 // TODO from file (other sources)
 void loadRound(Round *r)
 {
-    uint8_t initKey[16] =   {0x2b, 0x7e, 0x15, 0x16,
-                            0x28, 0xae, 0xd2, 0xa6,
-                            0xab, 0xf7, 0x15, 0x88,
-                            0x09, 0xcf, 0x4f, 0x3c};
+    uint8_t initKey[16] = {0x2b, 0x7e, 0x15, 0x16,
+                           0x28, 0xae, 0xd2, 0xa6,
+                           0xab, 0xf7, 0x15, 0x88,
+                           0x09, 0xcf, 0x4f, 0x3c};
     uint8_t plainText[16] = {0x32, 0x43, 0xf6, 0xa8,
                              0x88, 0x5a, 0x30, 0x8d,
                              0x31, 0x31, 0x98, 0xa2,
@@ -235,12 +236,16 @@ void printRound(uint8_t arr[], size_t size, int step, int is_rkey, int emptyline
 }
 
 // Multiply by any value using xtime and XOR
-uint8_t multiply(uint8_t x, uint8_t y) {
+uint8_t multiply(uint8_t x, uint8_t y)
+{
     uint8_t res = 0;
-    for (int i = 0; i < 4; i++) {
-        if ((y >> i) & 1) {
+    for (int i = 0; i < 4; i++)
+    {
+        if ((y >> i) & 1)
+        {
             uint8_t temp = x;
-            for (int j = 0; j < i; j++) temp = xtime(temp);
+            for (int j = 0; j < i; j++)
+                temp = xtime(temp);
             res ^= temp;
         }
     }
@@ -253,9 +258,11 @@ uint8_t multiply(uint8_t x, uint8_t y) {
     return res;
 }
 
-void inv_mix_columns(uint8_t state[4][4]) {
+void inv_mix_columns(uint8_t state[4][4])
+{
     uint8_t tmp[4];
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
         tmp[0] = multiply(state[0][i], 0x0e) ^ multiply(state[1][i], 0x0b) ^
                  multiply(state[2][i], 0x0d) ^ multiply(state[3][i], 0x09);
         tmp[1] = multiply(state[0][i], 0x09) ^ multiply(state[1][i], 0x0e) ^
@@ -265,7 +272,8 @@ void inv_mix_columns(uint8_t state[4][4]) {
         tmp[3] = multiply(state[0][i], 0x0b) ^ multiply(state[1][i], 0x0d) ^
                  multiply(state[2][i], 0x09) ^ multiply(state[3][i], 0x0e);
 
-        for (int j = 0; j < 4; j++) state[j][i] = tmp[j];
+        for (int j = 0; j < 4; j++)
+            state[j][i] = tmp[j];
     }
 }
 
